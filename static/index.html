@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>home</title>
+    <script src="./js/ajax.js"></script>
+
+    <!-- <script src="https://unpkg.com/axios/dist/axios.min.js"></script> -->
+  </head>
+  <body>
+    page
+    <script>
+      // axios.get('/api/getuserlist').then((res) => {
+      //   console.log(res, 'res');
+      // });
+      //ajax get 请求
+      ajax('/api/getuserlist', {
+        username: 'zs',
+        age: 12,
+      }).then((res) => {
+        console.log(res, 'ajax get');
+      });
+
+      // //ajax post 请求
+      // ajax(
+      //   'http://127.0.0.1:3000/postApi',
+      //   {
+      //     username: 'zs',
+      //     age: 12,
+      //   },
+      //   'POST'
+      // ).then((res) => {
+      //   console.log(res, 'ajax post');
+      // });
+    </script>
+  </body>
+</html>

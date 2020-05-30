@@ -43,7 +43,7 @@
     var username = window.localStorage.getItem('username')
     var password = window.localStorage.getItem('password')
     if (username && password) {
-      window.location.href = "home.html"
+      window.location.href = "/web/pages/home.html"
     }
   </script>
 </head>
@@ -69,13 +69,13 @@
       <tr>
         <td colspan="2" align="center" height="40">
           <input type="submit" value="登录" onclick="check()" class="submit" />
-          <input type="button" value="注册" onclick="window.location.href='register.html'" class="submit" />
+          <input type="button" value="注册" onclick="window.location.href='/web/pages/register.html'" class="submit" />
         </td>
       </tr>
     </table>
     </form>
   </div>
-  
+  <script src="/web/js/ajax.js"></script>
   <script type="text/javascript">
     function check() {
       let username = document.getElementById('username')
@@ -90,12 +90,20 @@
         password.focus();
         return false;
       }
-      console.log(document.cookie)
-      window.document.cookie =`username=${username.value}`
-window.document.cookie =`password=${password.value}`
-      // window.localStorage.setItem('username', username.value)
-      // window.localStorage.setItem('password', password.value)
-      // window.location.href = 'home.html';
+      ajax("/user/login", { username:username.value, password:password.value }, 'POST').then(res => {
+        let data = JSON.parse(res)
+        console.log(data);
+        if (data.code == 1) {
+          window.document.cookie = `username=${username.value}`
+          window.document.cookie = `password=${password.value}`
+          window.localStorage.setItem('username', username.value)
+          window.localStorage.setItem('password', password.value)
+          window.location.href = '/web/pages/home.html';
+        } else {
+          alert(data.message)
+        }
+      })
+
       return true;
     }
   </script>

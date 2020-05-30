@@ -3,7 +3,7 @@
  * @Author: sjq
  * @Date: 2020-05-30 14:33:40
  * @LastEditors: sjq
- * @LastEditTime: 2020-05-30 15:22:15
+ * @LastEditTime: 2020-05-30 16:29:59
  */
 
 const http = require("http"); //加载HTTP模块，用于创建HTTP服务器
@@ -29,9 +29,10 @@ let server = http.createServer(function (request, response) {
     });
     response.end(data); //向客户端发送数据
   };
-  if (method == "get" && pathName.startsWith("/web")) {
+  if (method == "get" && (pathName.startsWith("/web") || pathName === "/")) {
     //如果是get请求，且请求的是eis路径下的资源，则作为静态资源，读取文件，将文件内容发送到客户端
-    var target = path.resolve(__dirname, "../" + pathName); //获取请求的资源路径
+    pathName = pathName == "/" ? "/web/pages/login.html" : pathName;
+    var target = path.resolve(__dirname, "./" + pathName); //获取请求的资源路径
     var contentType = mime.getType(pathName); //获取资源的contentType
     fs.exists(target, function (exists) {
       //判断文件是否存在

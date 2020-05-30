@@ -3,16 +3,42 @@
  * @Author: sjq
  * @Date: 2020-05-30 15:00:52
  * @LastEditors: sjq
- * @LastEditTime: 2020-05-30 15:40:11
+ * @LastEditTime: 2020-05-30 16:52:48
  */
 
 var query = require("../doc/mysql.js");
 var userService = function (method, reqData, postData, returnData) {
   switch (method) {
-    case "find":
-      query("select * from user", [], function (err, results, fields) {
-        console.log(err);
-        returnHandle(err, results, returnData);
+    case "login":
+      let { username, password } = postData;
+      query("select * from user where username=? ", [username], function (
+        err,
+        results,
+        fields
+      ) {
+        if (err) {
+          returnHandle(err, results, returnData, "执行数据操作失败", 0);
+        } else {
+          if (results.length === 0) {
+            returnHandle(err, results, returnData, "账号未注册", 0);
+          } else {
+            query(
+              "select * from user where username=? and password=? ",
+              [username, password],
+              function (err, results, fields) {
+                if (err) {
+                  returnHandle(err, results, returnData, "执行数据操作失败", 0);
+                } else {
+                  if (results.length === 0) {
+                    returnHandle(err, results, returnData, "密码错误", 0);
+                  } else {
+                    returnHandle(err, results, returnData, "登录成功", 1);
+                  }
+                }
+              }
+            );
+          }
+        }
       });
       break;
     case "up":
@@ -40,17 +66,21 @@ var userService = function (method, reqData, postData, returnData) {
       break;
   }
 
-  function returnHandle(err, results, returnData) {
+  function returnHandle(err, results, returnData, msg, code) {
     if (err) {
-      console.log(err);
       returnData(
-        JSON.stringify({ message: "执行数据操作失败", status: "failure" }),
+        JSON.stringify({
+          code,
+          message: msg,
+          status: "failure",
+        }),
         200
       );
     } else {
       returnData(
         JSON.stringify({
-          message: "执行数据操作成功",
+          code,
+          message: msg,
           status: "success",
           result: results,
         }),

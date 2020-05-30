@@ -1,3 +1,10 @@
+<!--
+ * @Descripttion: 
+ * @Author: sjq
+ * @Date: 2020-05-30 15:44:17
+ * @LastEditors: sjq
+ * @LastEditTime: 2020-05-30 16:55:00
+-->
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -5,9 +12,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>home</title>
     <script>
-      let username = window.localStorage.getItem('username');
+      console.log(JSON.parse(JSON.stringify(document.cookie)));
+      let username = window.localStorage.getItem("username");
       if (!username) {
-        window.location.href = 'login.html';
+        window.location.href = "/";
       }
     </script>
   </head>
@@ -19,7 +27,7 @@
       userName.innerHTML = username;
       function logout() {
         window.localStorage.clear();
-        window.location.href = 'login.html';
+        window.location.href = "/";
       }
     </script>
   </body>

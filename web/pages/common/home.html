@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>home</title>
+    <script>
+      let username = window.localStorage.getItem('username');
+      if (!username) {
+        window.location.href = 'login.html';
+      }
+    </script>
+  </head>
+  <body>
+    <h1>首页</h1>
+    <h2>用户名：<span id="userName"></span></h2>
+    <button onclick="logout()">注销</button>
+    <script type="text/javascript">
+      userName.innerHTML = username;
+      function logout() {
+        window.localStorage.clear();
+        window.location.href = 'login.html';
+      }
+    </script>
+  </body>
+</html>

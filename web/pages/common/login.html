@@ -1,0 +1,104 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>登录窗口</title>
+  <style type="text/css">
+    body {
+      font-size: 12px;
+    }
+
+    #title {
+      color: #ff7b0b;
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .txt {
+      width: 230px;
+      height: 25px;
+      border: 1px solid #ececec;
+      margin-bottom: 10px;
+    }
+
+    .font_14 {
+      font-size: 14px;
+      height: 30px;
+      line-height: 40px;
+    }
+
+    .submit {
+      border: 1px solid #ccc;
+      background: #fff;
+      color: #666;
+      width: 60px;
+      height: 25px;
+      line-height: 25px;
+      border-radius: 5px;
+    }
+  </style>
+  <script>
+    var username = window.localStorage.getItem('username')
+    var password = window.localStorage.getItem('password')
+    if (username && password) {
+      window.location.href = "home.html"
+    }
+  </script>
+</head>
+
+<body>
+  <div>
+    <table border="0" align="center">
+      <tr>
+        <td colspan="2" align="center" height="40" id="title">用户登录</td>
+      </tr>
+      <tr>
+        <td align="right" class="font_14">用户：</td>
+        <td>
+          <input type="text" name="userName" class="txt" id="username" />
+        </td>
+      </tr>
+      <tr>
+        <td align="right" class="font_14">密码：</td>
+        <td>
+          <input type="password" name="userPwd" class="txt" id="password" />
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" align="center" height="40">
+          <input type="submit" value="登录" onclick="check()" class="submit" />
+          <input type="button" value="注册" onclick="window.location.href='register.html'" class="submit" />
+        </td>
+      </tr>
+    </table>
+    </form>
+  </div>
+  
+  <script type="text/javascript">
+    function check() {
+      let username = document.getElementById('username')
+      let password = document.getElementById('password')
+      if (username.value == '') {
+        alert('用户名不能为空！');
+        username.focus();
+        return false;
+      }
+      if (password.value == '') {
+        alert('密码名不能为空！');
+        password.focus();
+        return false;
+      }
+      console.log(document.cookie)
+      window.document.cookie =`username=${username.value}`
+window.document.cookie =`password=${password.value}`
+      // window.localStorage.setItem('username', username.value)
+      // window.localStorage.setItem('password', password.value)
+      // window.location.href = 'home.html';
+      return true;
+    }
+  </script>
+</body>
+
+</html>

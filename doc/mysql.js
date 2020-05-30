@@ -3,7 +3,7 @@
  * @Author: sjq
  * @Date: 2020-05-30 15:01:41
  * @LastEditors: sjq
- * @LastEditTime: 2020-05-30 15:02:18
+ * @LastEditTime: 2020-05-30 15:35:47
  */
 var mysql = require("mysql");
 var option = {
@@ -11,13 +11,13 @@ var option = {
   port: "3306",
   database: "my_db",
   user: "root",
-  password: "123321",
+  password: "123123",
 };
 var query = function (sql, params, callback) {
   var conn = mysql.createConnection(option);
   conn.connect(function (err) {
     if (err) {
-      callback(qerr, null, null);
+      callback(err, null, null);
     } else {
       conn.query(sql, params, function (qerr, vals, fields) {
         //释放连接

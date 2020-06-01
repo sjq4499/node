@@ -3,7 +3,7 @@
  * @Author: sjq
  * @Date: 2020-05-30 15:00:52
  * @LastEditors: sjq
- * @LastEditTime: 2020-06-01 11:30:11
+ * @LastEditTime: 2020-06-01 11:30:35
  */
 
 var query = require("../doc/mysql.js");
@@ -69,7 +69,15 @@ var userService = function (method, reqData, postData, returnData) {
         }
       });
       break;
-
+    case "userlist":
+      query("select * from user ", [], function (err, results, fields) {
+        if (err) {
+          returnHandle(err, results, returnData, "执行数据操作失败", 0);
+        } else {
+          returnHandle(err, results, returnData, "获取成功", 1);
+        }
+      });
+      break;
     default:
       returnData(
         null,

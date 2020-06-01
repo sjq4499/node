@@ -3,19 +3,21 @@
  * @Author: sjq
  * @Date: 2020-05-30 14:33:40
  * @LastEditors: sjq
- * @LastEditTime: 2020-05-30 16:17:23
+ * @LastEditTime: 2020-06-01 14:15:32
  */
 
 function ajax(url, params = null, type = "GET") {
+  console.log(url);
   return new Promise((resolve, reject) => {
     let xhr = new XMLHttpRequest();
     xhr.open(type, url);
     params = formdata(params);
+    // 设置请求头
+    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     if (type == "GET" && params) {
       url += url.indexOf("?") > -1 ? "" : "?" + params;
       xhr.send(null);
     } else if (type == "POST") {
-      xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
       xhr.send(params);
     }
     xhr.onreadystatechange = () => {

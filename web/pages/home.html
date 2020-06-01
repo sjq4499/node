@@ -3,7 +3,7 @@
  * @Author: sjq
  * @Date: 2020-05-30 15:44:17
  * @LastEditors: sjq
- * @LastEditTime: 2020-06-01 11:08:15
+ * @LastEditTime: 2020-06-01 15:13:34
 -->
 <!DOCTYPE html>
 <html lang="en">
@@ -12,23 +12,90 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>home</title>
     <script src="/web/js/utils.js"></script>
+    <script src="/web/js/ajax.js"></script>
     <script>
       let username = getCookie("username");
       if (!username) {
         window.location.href = "/";
       }
     </script>
+    <style>
+      * {
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+      }
+      .table {
+        border: solid 1px #000;
+        border-bottom: none;
+        width: 1010px;
+      }
+      .table .list {
+        border-bottom: 1px solid #000;
+      }
+      .table .list .item {
+        width: 200px;
+        padding: 10px;
+        border-right: 1px solid #000;
+        display: inline-block;
+      }
+      .table .list .item:last-child {
+        border-right: none;
+      }
+    </style>
   </head>
   <body>
     <h1>首页</h1>
     <h2>用户名：<span id="userName"></span></h2>
     <button onclick="logout()">注销</button>
+    <div class="table"></div>
     <script type="text/javascript">
+      let table = document.querySelector(".table");
+      console.log(table);
+      let arr = {
+        username: "用户名",
+        password: "密码",
+        userSex: "性别",
+        userEmail: "邮箱",
+        userBasicInfo: "基本信息",
+      };
+      let obj = [
+        "username",
+        "password",
+        "userSex",
+        "userEmail",
+        "userBasicInfo",
+      ];
+      creatList(arr);
+      ajax("/user/userlist", { name: username }, "GET").then((res) => {
+        let data = JSON.parse(res);
+        if (data.code == 1) {
+          let list = data.result;
+          for (var i = 0; i < list.length; i++) {
+            creatList(list[i]);
+          }
+        } else {
+          alert(data.message);
+        }
+      });
       userName.innerHTML = username;
       function logout() {
         deleteCookie("username");
         deleteCookie("password");
         window.location.href = "/";
+      }
+
+      function creatList(data) {
+        console.log(data);
+        let list = document.createElement("div");
+        list.classList.add("list");
+        for (var i = 0; i < obj.length; i++) {
+          let item = document.createElement("span");
+          item.classList.add("item");
+          item.innerHTML = data[obj[i]];
+          list.appendChild(item);
+        }
+        table.appendChild(list);
       }
     </script>
   </body>

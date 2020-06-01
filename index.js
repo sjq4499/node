@@ -3,7 +3,7 @@
  * @Author: sjq
  * @Date: 2020-05-30 14:33:40
  * @LastEditors: sjq
- * @LastEditTime: 2020-05-30 16:29:59
+ * @LastEditTime: 2020-06-01 14:06:43
  */
 
 const http = require("http"); //加载HTTP模块，用于创建HTTP服务器
@@ -19,6 +19,7 @@ const host = "localhost";
 
 let server = http.createServer(function (request, response) {
   let pathName = url.parse(request.url).pathname; //获取请求的资源路径
+  console.log(pathName);
   let method = request.method.toLowerCase(); //获取请求方法post|get
   //用于向客户端返回数据的回调函数
   let returnDataFn = function (data, status) {
@@ -92,6 +93,7 @@ let server = http.createServer(function (request, response) {
     });
   } else {
     var reqData = url.parse(request.url, true).query;
+    console.log(reqData, pathName);
     var buf = []; //定义一个buf用于暂存请求体的信息
     request.on("data", function (chunk) {
       buf.push(chunk);

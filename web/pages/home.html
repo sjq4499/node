@@ -3,7 +3,7 @@
  * @Author: sjq
  * @Date: 2020-05-30 15:44:17
  * @LastEditors: sjq
- * @LastEditTime: 2020-06-01 09:24:32
+ * @LastEditTime: 2020-06-01 11:08:15
 -->
 <!DOCTYPE html>
 <html lang="en">
@@ -24,10 +24,10 @@
     <h2>用户名：<span id="userName"></span></h2>
     <button onclick="logout()">注销</button>
     <script type="text/javascript">
-      console.log(getCookie("username"));
       userName.innerHTML = username;
       function logout() {
         deleteCookie("username");
+        deleteCookie("password");
         window.location.href = "/";
       }
     </script>

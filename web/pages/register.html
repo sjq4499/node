@@ -67,8 +67,8 @@
           <td>
             <input
               type="text"
-              name="userName"
-              id="userName"
+              name="username"
+              id="username"
               value=""
               class="txt"
             />
@@ -80,8 +80,8 @@
           <td>
             <input
               type="password"
-              name="userPwd"
-              id="userPwd"
+              name="password"
+              id="password"
               value=""
               class="txt"
             />
@@ -104,8 +104,8 @@
         <tr>
           <td align="right" class="font_14">性别：*</td>
           <td>
-            <input type="radio" name="userSex" value="男" checked="checked" />
-            <input type="radio" name="userSex" value="女" />
+            <input type="radio" name="userSex" value="1" checked="checked" />男
+            <input type="radio" name="userSex" value="2" />女
           </td>
           <td class="info">请选择您的性别！</td>
         </tr>
@@ -133,6 +133,7 @@
               rows="5"
               cols="50"
               value=""
+              id="userBasicInfo"
             ></textarea>
           </td>
         </tr>
@@ -160,44 +161,73 @@
         </tr>
       </table>
     </form>
+    <script src="/web/js/ajax.js"></script>
     <script language="JavaScript">
-      let userName = document.getElementById('userName');
-      let userPwd = document.getElementById('userPwd');
-      let userPwd1 = document.getElementById('userPwd1');
-      let userEmail = document.getElementById('userEmail');
-      let accept = document.getElementById('accept');
-
+      let username = document.getElementById("username");
+      let password = document.getElementById("password");
+      let userPwd1 = document.getElementById("userPwd1");
+      let userEmail = document.getElementById("userEmail");
+      let accept = document.getElementById("accept");
+      let userBasicInfo = document.getElementById("userBasicInfo");
+      let userSex = document.getElementsByName("userSex");
+      function get_radio_value(field) {
+        if (field && field.length) {
+          for (var i = 0; i < field.length; i++) {
+            if (field[i].checked) {
+              return field[i].value;
+            }
+          }
+        } else {
+          return;
+        }
+      }
       function check() {
-        if (userName.value == '') {
-          alert('用户名不能为空！');
+        if (username.value == "") {
+          alert("用户名不能为空！");
           return false;
         }
         var reg1 = /[a-zA-Z]\w*/;
-        if (!reg1.test(userName.value)) {
-          alert('用户名格式不正确！');
+        if (!reg1.test(username.value)) {
+          alert("用户名格式不正确！");
           return false;
         }
-        if (userPwd.value.length < 5) {
-          alert('密码长度不能小于5！');
+        if (password.value.length < 5) {
+          alert("密码长度不能小于5！");
           return false;
         }
-        if (userPwd1.value != userPwd.value) {
-          alert('密码不一致！');
+        if (userPwd1.value != password.value) {
+          alert("密码不一致！");
           return false;
         }
         var reg2 = /\w+([-+.']\w+)*@\w+([-.]\w+)*.\w+([-.]\w+)*/;
         if (!reg2.test(userEmail.value)) {
-          alert('邮件格式不正确！');
+          alert("邮件格式不正确！");
           return false;
         }
         if (accept.checked == false) {
-          alert('您需要仔细阅读用户使用协议，并同意接受协议！');
+          alert("您需要仔细阅读用户使用协议，并同意接受协议！");
           return false;
         }
-        if (confirm('注册成功，是否跳到登录页')) {
-          window.location.href = 'login.html';
-        } else {
-        }
+        ajax(
+          "/user/register",
+          {
+            username: username.value,
+            password: password.value,
+            userEmail: userEmail.value,
+            userBasicInfo: userBasicInfo.value,
+            userSex: get_radio_value(userSex),
+          },
+          "POST"
+        ).then((res) => {
+          let data = JSON.parse(res);
+          if (data.code == 1) {
+            if (confirm("注册成功，是否跳到登录页")) {
+              window.location.href = "login.html";
+            }
+          } else {
+            alert(data.message);
+          }
+        });
         return true;
       }
     </script>

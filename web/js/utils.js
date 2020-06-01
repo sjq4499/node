@@ -3,7 +3,7 @@
  * @Author: sjq
  * @Date: 2020-06-01 08:47:27
  * @LastEditors: sjq
- * @LastEditTime: 2020-06-01 09:24:21
+ * @LastEditTime: 2020-06-01 11:07:51
  */
 // 设置cookie
 function setCookie(name, value, time = "", path = "") {
@@ -48,9 +48,12 @@ function getCookie(name) {
 function deleteCookie(name) {
   var exp = new Date();
   exp.setTime(exp.getTime() - 1);
+  console.log(exp.setTime(exp.getTime() - 1));
   // 这里需要判断一下cookie是否存在
   var c = getCookie(name);
+  console.log(name + "=" + c + ";expires=" + exp.toGMTString());
   if (c != null) {
-    document.cookie = name + "=" + c + ";expires=" + exp.toGMTString();
+    document.cookie =
+      name + "=" + c + ";expires=" + exp.toGMTString() + "; path=/";
   }
 }

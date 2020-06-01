@@ -3,14 +3,14 @@
  * @Author: sjq
  * @Date: 2020-05-30 15:00:52
  * @LastEditors: sjq
- * @LastEditTime: 2020-05-30 16:52:48
+ * @LastEditTime: 2020-06-01 11:30:11
  */
 
 var query = require("../doc/mysql.js");
 var userService = function (method, reqData, postData, returnData) {
   switch (method) {
     case "login":
-      let { username, password } = postData;
+      var { username, password } = postData;
       query("select * from user where username=? ", [username], function (
         err,
         results,
@@ -41,22 +41,35 @@ var userService = function (method, reqData, postData, returnData) {
         }
       });
       break;
-    case "up":
-      query(
-        "insert into  product(no,name,type,price,pic,num) values(?,?,?,?,?,?)",
-        [
-          postData.no,
-          postData.name,
-          postData.type,
-          postData.price,
-          postData.filename,
-          postData.num,
-        ],
-        function (err, results, fields) {
-          returnHandle(err, results, returnData);
+    case "register":
+      var { userSex, username, password, userEmail, userBasicInfo } = postData;
+      query("select * from user where username=? ", [username], function (
+        err,
+        results,
+        fields
+      ) {
+        if (err) {
+          returnHandle(err, results, returnData, "执行数据操作失败", 0);
+        } else {
+          if (results.length > 0) {
+            returnHandle(err, results, returnData, "账号已注册", 0);
+          } else {
+            query(
+              "insert into  user (username,password,userSex,userEmail,userBasicInfo) values (?,?,?,?,?) ",
+              [username, password, userSex, userEmail, userBasicInfo],
+              function (err, results, fields) {
+                if (err) {
+                  returnHandle(err, results, returnData, "sql错误", 0);
+                } else {
+                  returnHandle(err, results, returnData, "注册成功", 1);
+                }
+              }
+            );
+          }
         }
-      );
+      });
       break;
+
     default:
       returnData(
         null,

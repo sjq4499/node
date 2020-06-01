@@ -93,7 +93,6 @@
       }
       ajax("/user/login", { username:username.value, password:password.value }, 'POST').then(res => {
         let data = JSON.parse(res)
-        console.log(data);
         if (data.code == 1) {
           setCookie('username',username.value)
           setCookie('password',password.value)

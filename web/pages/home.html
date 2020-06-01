@@ -3,7 +3,7 @@
  * @Author: sjq
  * @Date: 2020-05-30 15:44:17
  * @LastEditors: sjq
- * @LastEditTime: 2020-06-01 15:13:34
+ * @LastEditTime: 2020-06-01 15:52:32
 -->
 <!DOCTYPE html>
 <html lang="en">
@@ -28,14 +28,16 @@
       .table {
         border: solid 1px #000;
         border-bottom: none;
-        width: 1010px;
+        width: 1212px;
       }
       .table .list {
+        height: 50px;
         border-bottom: 1px solid #000;
       }
       .table .list .item {
         width: 200px;
-        padding: 10px;
+        line-height: 50px;
+        padding-left: 10px;
         border-right: 1px solid #000;
         display: inline-block;
       }
@@ -58,6 +60,7 @@
         userSex: "性别",
         userEmail: "邮箱",
         userBasicInfo: "基本信息",
+        fn: "操作",
       };
       let obj = [
         "username",
@@ -65,34 +68,64 @@
         "userSex",
         "userEmail",
         "userBasicInfo",
+        "fn",
       ];
+      let list = [];
       creatList(arr);
-      ajax("/user/userlist", { name: username }, "GET").then((res) => {
-        let data = JSON.parse(res);
-        if (data.code == 1) {
-          let list = data.result;
-          for (var i = 0; i < list.length; i++) {
-            creatList(list[i]);
-          }
-        } else {
-          alert(data.message);
-        }
-      });
+      getuserlist();
       userName.innerHTML = username;
       function logout() {
         deleteCookie("username");
         deleteCookie("password");
         window.location.href = "/";
       }
-
+      // 点击删除
+      function deleteuser(id) {
+        ajax("/user/deleteuser", { id }, "post").then((res) => {
+          let data = JSON.parse(res);
+          if (data.code == 1) {
+            list.splice(
+              list.findIndex((item) => item.id == id),
+              1
+            );
+            console.log(list);
+            table.innerHTML = "";
+            creatList(arr);
+            for (var i = 0; i < list.length; i++) {
+              creatList(list[i]);
+            }
+            alert(data.message);
+          } else {
+            alert(data.message);
+          }
+        });
+      }
+      // 获取用户列表
+      function getuserlist() {
+        ajax("/user/userlist", { name: username }, "POST").then((res) => {
+          let data = JSON.parse(res);
+          if (data.code == 1) {
+            list = data.result;
+            for (var i = 0; i < list.length; i++) {
+              creatList(list[i]);
+            }
+          } else {
+            alert(data.message);
+          }
+        });
+      }
+      // 创建表格
       function creatList(data) {
-        console.log(data);
         let list = document.createElement("div");
         list.classList.add("list");
         for (var i = 0; i < obj.length; i++) {
           let item = document.createElement("span");
           item.classList.add("item");
-          item.innerHTML = data[obj[i]];
+          if (i == obj.length - 1 && !data[obj[i]]) {
+            item.innerHTML = `<button class="del" index=${data.id} onclick="deleteuser(${data.id})">删除</button>`;
+          } else {
+            item.innerHTML = data[obj[i]];
+          }
           list.appendChild(item);
         }
         table.appendChild(list);

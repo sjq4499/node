@@ -3,11 +3,11 @@
  * @Author: sjq
  * @Date: 2020-05-30 14:33:40
  * @LastEditors: sjq
- * @LastEditTime: 2020-06-01 14:15:32
+ * @LastEditTime: 2020-06-01 15:44:13
  */
 
 function ajax(url, params = null, type = "GET") {
-  console.log(url);
+  type = type.toUpperCase();
   return new Promise((resolve, reject) => {
     let xhr = new XMLHttpRequest();
     xhr.open(type, url);

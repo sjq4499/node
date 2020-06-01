@@ -39,9 +39,10 @@
       border-radius: 5px;
     }
   </style>
+  <script src="/web/js/utils.js"></script>
   <script>
-    var username = window.localStorage.getItem('username')
-    var password = window.localStorage.getItem('password')
+    var username = getCookie('username')
+    var password = getCookie('password')
     if (username && password) {
       window.location.href = "/web/pages/home.html"
     }
@@ -94,10 +95,8 @@
         let data = JSON.parse(res)
         console.log(data);
         if (data.code == 1) {
-          window.document.cookie = `username=${username.value}`
-          window.document.cookie = `password=${password.value}`
-          window.localStorage.setItem('username', username.value)
-          window.localStorage.setItem('password', password.value)
+          setCookie('username',username.value)
+          setCookie('password',password.value)
           window.location.href = '/web/pages/home.html';
         } else {
           alert(data.message)

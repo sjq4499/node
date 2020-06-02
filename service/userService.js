@@ -3,7 +3,7 @@
  * @Author: sjq
  * @Date: 2020-05-30 15:00:52
  * @LastEditors: sjq
- * @LastEditTime: 2020-06-02 17:46:59
+ * @LastEditTime: 2020-06-02 18:05:43
  */
 
 var query = require("../doc/mysql.js");
@@ -74,6 +74,9 @@ var userService = function (method, reqData, postData, returnData) {
         if (err) {
           returnHandle(err, results, returnData, "执行数据操作失败", 0);
         } else {
+          results = results.map(
+            (item) => (item.sexValue = item.userSex == 1 ? "男" : "女")
+          );
           returnHandle(err, results, returnData, "获取成功", 1);
         }
       });
@@ -103,6 +106,43 @@ var userService = function (method, reqData, postData, returnData) {
           returnHandle(err, results, returnData, "执行数据操作失败", 0);
         } else {
           returnHandle(err, results, returnData, "获取成功", 1);
+        }
+      });
+      break;
+    case "edituser":
+      var {
+        oldUsername,
+        userSex,
+        username,
+        password,
+        userEmail,
+        userBasicInfo,
+        id,
+      } = postData;
+      console.log(oldUsername, username);
+      query("select * from user where username=? ", [username], function (
+        err,
+        results,
+        fields
+      ) {
+        if (err) {
+          returnHandle(err, results, returnData, "执行数据操作失败", 0);
+        } else {
+          if (results.length > 0 && oldUsername != username) {
+            returnHandle(err, results, returnData, "账号已注册", 0);
+          } else {
+            query(
+              "update user set username=? , password=? , userSex=? , userEmail=? , userBasicInfo=?   where id=? ",
+              [username, password, userSex, userEmail, userBasicInfo, id],
+              function (err, results, fields) {
+                if (err) {
+                  returnHandle(err, results, returnData, "sql错误", 0);
+                } else {
+                  returnHandle(err, results, returnData, "编辑成功", 1);
+                }
+              }
+            );
+          }
         }
       });
       break;

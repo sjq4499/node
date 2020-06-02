@@ -3,7 +3,7 @@
  * @Author: sjq
  * @Date: 2020-05-30 15:44:17
  * @LastEditors: sjq
- * @LastEditTime: 2020-06-01 15:52:32
+ * @LastEditTime: 2020-06-01 15:58:25
 -->
 <!DOCTYPE html>
 <html lang="en">
@@ -114,6 +114,10 @@
           }
         });
       }
+      // 编辑用户
+      function edit(id) {
+        window.location.href = "/web/pages/edit.html?id=" + id;
+      }
       // 创建表格
       function creatList(data) {
         let list = document.createElement("div");
@@ -122,7 +126,7 @@
           let item = document.createElement("span");
           item.classList.add("item");
           if (i == obj.length - 1 && !data[obj[i]]) {
-            item.innerHTML = `<button class="del" index=${data.id} onclick="deleteuser(${data.id})">删除</button>`;
+            item.innerHTML = `<button class="del" index=${data.id} onclick="deleteuser(${data.id})">删除</button>&nbsp;&nbsp;&nbsp;<button class="edit" index=${data.id} onclick="edit(${data.id})">编辑</button>`;
           } else {
             item.innerHTML = data[obj[i]];
           }

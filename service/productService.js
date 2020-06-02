@@ -1,9 +1,18 @@
 /*
+ * @Author: your name
+ * @Date: 2020-05-30 15:00:52
+ * @LastEditTime: 2020-06-02 08:58:37
+ * @LastEditors: your name
+ * @Description: In User Settings Edit
+ * @FilePath: \node\service\productService.js
+ */
+
+/*
  * @Descripttion:
  * @Author: sjq
  * @Date: 2020-05-30 15:00:52
- * @LastEditors: sjq
- * @LastEditTime: 2020-05-30 15:02:58
+ * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2020-06-02 08:58:36
  */
 
 var query = require("../doc/mysql.js");

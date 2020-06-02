@@ -1,0 +1,254 @@
+<!--
+ * @Descripttion: 
+ * @Author: sjq
+ * @Date: 2020-06-01 15:54:32
+ * @LastEditors: sjq
+ * @LastEditTime: 2020-06-02 08:53:06
+-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style type="text/css">
+      body {
+        font-size: 12px;
+      }
+
+      #title {
+        color: #ff7b0b;
+        font-size: 20px;
+        font-weight: bold;
+      }
+
+      td {
+        height: 30px;
+      }
+
+      .info {
+        color: #444444;
+      }
+
+      .txt {
+        width: 150px;
+        height: 15px;
+      }
+
+      .info span {
+        display: inline-block;
+        width: 50px;
+        height: 20px;
+        background-color: #eeeeee;
+        line-height: 20px;
+        text-align: center;
+      }
+
+      .submit {
+        border: 1px solid #ccc;
+        background: #fff;
+        color: #666;
+        width: 60px;
+        height: 25px;
+        line-height: 25px;
+        border-radius: 5px;
+      }
+
+      .font_14 {
+        font-size: 14px;
+        height: 30px;
+        line-height: 40px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <form name="frm" onsubmit="return false">
+      <table border="0" align="center" width="600">
+        <tr>
+          <td colspan="3" align="center" height="40" id="title">
+            填写账户信息
+          </td>
+        </tr>
+        <tr>
+          <td align="right" class="font_14">用户名：*</td>
+          <td>
+            <input
+              type="text"
+              name="username"
+              id="username"
+              value=""
+              class="txt"
+            />
+          </td>
+          <td class="info">用户名由字母开头，后跟字母、数字或下划线！</td>
+        </tr>
+        <tr>
+          <td align="right" class="font_14">密码：*</td>
+          <td>
+            <input
+              type="password"
+              name="password"
+              id="password"
+              value=""
+              class="txt"
+            />
+          </td>
+          <td class="info">请设置登录密码！</td>
+        </tr>
+        <tr>
+          <td align="right" class="font_14">确认密码：*</td>
+          <td>
+            <input
+              type="password"
+              name="userPwd1"
+              id="userPwd1"
+              value=""
+              class="txt"
+            />
+          </td>
+          <td class="info">请再输入一次您的密码！</td>
+        </tr>
+        <tr>
+          <td align="right" class="font_14">性别：*</td>
+          <td>
+            <input type="radio" name="userSex" value="1" checked="checked" />男
+            <input type="radio" name="userSex" value="2" />女
+          </td>
+          <td class="info">请选择您的性别！</td>
+        </tr>
+        <tr>
+          <td align="right" class="font_14">邮件地址：*</td>
+          <td>
+            <input
+              type="text"
+              name="userEmail"
+              id="userEmail"
+              value=""
+              class="txt"
+              style="width: 150px;"
+            />
+          </td>
+          <td class="info">请填写您常用邮箱，可用此邮箱找回密码！</td>
+        </tr>
+        <tr>
+          <td align="right" valign="top" style="font-size: 14px;">
+            基本情况：
+          </td>
+          <td colspan="2">
+            <textarea
+              name="userBasicInfo"
+              rows="5"
+              cols="50"
+              value=""
+              id="userBasicInfo"
+            ></textarea>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="3" align="center" height="40">
+            <input
+              type="submit"
+              value="确定修改"
+              class="submit"
+              onclick="check()"
+            />
+            <input
+              type="button"
+              value="取消"
+              onclick="window.history.back( )"
+              class="submit"
+            />
+          </td>
+        </tr>
+      </table>
+    </form>
+    <script src="/web/js/ajax.js"></script>
+    <script language="JavaScript">
+      let username = document.getElementById("username");
+      let password = document.getElementById("password");
+      let userPwd1 = document.getElementById("userPwd1");
+      let userEmail = document.getElementById("userEmail");
+      let userBasicInfo = document.getElementById("userBasicInfo");
+      let userSex = document.getElementsByName("userSex");
+
+      // 获取参数
+      var url = document.location.toString();
+      var arrUrl = url.split("?");
+      var para = arrUrl[1].split("&");
+      let urlData = {};
+      para.forEach((item) => {
+        let arr = item.split("=");
+        console.log(arr);
+        urlData[arr[0]] = arr[1];
+      });
+
+      // 获取信息
+      ajax("/user/userdetail?id=" + urlData.id, {}, "get").then((res) => {
+        let data = JSON.parse(res);
+        if (data.code == 1) {
+          list = data.result;
+          console.log(list);
+        } else {
+          alert(data.message);
+        }
+      });
+      function get_radio_value(field) {
+        if (field && field.length) {
+          for (var i = 0; i < field.length; i++) {
+            if (field[i].checked) {
+              return field[i].value;
+            }
+          }
+        } else {
+          return;
+        }
+      }
+
+      function check() {
+        if (username.value == "") {
+          alert("用户名不能为空！");
+          return false;
+        }
+        var reg1 = /[a-zA-Z]\w*/;
+        if (!reg1.test(username.value)) {
+          alert("用户名格式不正确！");
+          return false;
+        }
+        if (password.value.length < 5) {
+          alert("密码长度不能小于5！");
+          return false;
+        }
+        if (userPwd1.value != password.value) {
+          alert("密码不一致！");
+          return false;
+        }
+        var reg2 = /\w+([-+.']\w+)*@\w+([-.]\w+)*.\w+([-.]\w+)*/;
+        if (!reg2.test(userEmail.value)) {
+          alert("邮件格式不正确！");
+          return false;
+        }
+        ajax(
+          "/user/register",
+          {
+            username: username.value,
+            password: password.value,
+            userEmail: userEmail.value,
+            userBasicInfo: userBasicInfo.value,
+            userSex: get_radio_value(userSex),
+          },
+          "POST"
+        ).then((res) => {
+          let data = JSON.parse(res);
+          if (data.code == 1) {
+            if (confirm("注册成功，是否跳到登录页")) {
+              window.location.href = "login.html";
+            }
+          } else {
+            alert(data.message);
+          }
+        });
+        return true;
+      }
+    </script>
+  </body>
+</html>

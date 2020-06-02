@@ -3,7 +3,7 @@
  * @Author: sjq
  * @Date: 2020-05-30 14:33:40
  * @LastEditors: sjq
- * @LastEditTime: 2020-06-01 15:44:13
+ * @LastEditTime: 2020-06-02 08:52:47
  */
 
 function ajax(url, params = null, type = "GET") {

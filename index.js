@@ -3,7 +3,7 @@
  * @Author: sjq
  * @Date: 2020-05-30 14:33:40
  * @LastEditors: sjq
- * @LastEditTime: 2020-06-01 15:53:24
+ * @LastEditTime: 2020-06-02 08:50:44
  */
 
 const http = require("http"); //加载HTTP模块，用于创建HTTP服务器
@@ -91,6 +91,7 @@ let server = http.createServer(function (request, response) {
       }
     });
   } else {
+    console.log(request.url);
     var reqData = url.parse(request.url, true).query;
     var buf = []; //定义一个buf用于暂存请求体的信息
     request.on("data", function (chunk) {

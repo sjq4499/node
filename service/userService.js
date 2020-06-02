@@ -3,7 +3,7 @@
  * @Author: sjq
  * @Date: 2020-05-30 15:00:52
  * @LastEditors: sjq
- * @LastEditTime: 2020-06-02 18:05:43
+ * @LastEditTime: 2020-06-02 18:09:30
  */
 
 var query = require("../doc/mysql.js");
@@ -74,9 +74,10 @@ var userService = function (method, reqData, postData, returnData) {
         if (err) {
           returnHandle(err, results, returnData, "执行数据操作失败", 0);
         } else {
-          results = results.map(
-            (item) => (item.sexValue = item.userSex == 1 ? "男" : "女")
-          );
+          results = results.map((item) => {
+            item.sexValue = item.userSex == 1 ? "男" : "女";
+            return item;
+          });
           returnHandle(err, results, returnData, "获取成功", 1);
         }
       });

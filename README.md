@@ -19,3 +19,5 @@ npm install
 ```
 npm run dev
 ```
+
+用户登录、注册、查询及修改和删除

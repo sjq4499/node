@@ -3,7 +3,7 @@
  * @Author: sjq
  * @Date: 2020-06-01 15:54:32
  * @LastEditors: sjq
- * @LastEditTime: 2020-06-02 08:53:06
+ * @LastEditTime: 2020-06-02 17:50:11
 -->
 <!DOCTYPE html>
 <html lang="en">
@@ -183,15 +183,23 @@
       });
 
       // 获取信息
-      ajax("/user/userdetail?id=" + urlData.id, {}, "get").then((res) => {
-        let data = JSON.parse(res);
-        if (data.code == 1) {
-          list = data.result;
-          console.log(list);
-        } else {
-          alert(data.message);
+      ajax("/user/userdetail?id=" + urlData.id, { id: urlData.id }, "GET").then(
+        (res) => {
+          let data = JSON.parse(res);
+          if (data.code == 1) {
+            list = data.result[0];
+            console.log(list);
+            username.value = list.username;
+            password.value = list.password;
+            userPwd1.value = list.password;
+            userEmail.value = list.userEmail;
+            userBasicInfo.value = list.userBasicInfo;
+            userSex.value = list.userSex;
+          } else {
+            alert(data.message);
+          }
         }
-      });
+      );
       function get_radio_value(field) {
         if (field && field.length) {
           for (var i = 0; i < field.length; i++) {

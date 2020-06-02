@@ -3,7 +3,7 @@
  * @Author: sjq
  * @Date: 2020-05-30 15:00:52
  * @LastEditors: sjq
- * @LastEditTime: 2020-06-01 16:42:12
+ * @LastEditTime: 2020-06-02 17:46:59
  */
 
 var query = require("../doc/mysql.js");
@@ -93,8 +93,7 @@ var userService = function (method, reqData, postData, returnData) {
       });
       break;
     case "userdetail":
-      var { id } = postData;
-      console.log(id, id == "2");
+      var { id } = reqData;
       query("select * from user where id=? ", [id], function (
         err,
         results,

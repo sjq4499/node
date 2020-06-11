@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>产品</title>
+    <style>
+      body {
+        font-size: 12px;
+      }
+      #title {
+        color: #ff7b0b;
+        font-size: 20px;
+        font-weight: bold;
+      }
+      td {
+        height: 30px;
+      }
+    </style>
+  </head>
+  <body>
+    <form
+      method="POST"
+      enctype="multipart/form-data"
+      onsubmit="return check(this)"
+      action="http://localhost:8080/product/up"
+    >
+      <table border="0" align="center" width="600">
+        <tr>
+          <td colspan="3" align="center" height="40" id="title">
+            填写产品信息
+          </td>
+        </tr>
+        <tr>
+          <td align="right">产品编号：*</td>
+          <td>
+            <input type="text" name="no" style="width: 150px; height: 15px;" />
+          </td>
+        </tr>
+
+        <tr>
+          <td align="right">产品名称：*</td>
+          <td>
+            <input
+              type="text"
+              name="name"
+              style="width: 350px; height: 15px;"
+            />
+          </td>
+        </tr>
+        <tr>
+          <td align="right">产品类型：*</td>
+          <td>
+            <input
+              type="text"
+              name="type"
+              style="width: 150px; height: 15px;"
+            />
+          </td>
+        </tr>
+        <tr>
+          <td align="right">产品价格：*</td>
+          <td>
+            <input
+              type="text"
+              name="price"
+              style="width: 100px; height: 15px;"
+            />
+          </td>
+        </tr>
+        <tr>
+          <td align="right">产品数量：*</td>
+          <td>
+            <input type="text" name="num" style="width: 100px; height: 15px;" />
+          </td>
+        </tr>
+        <tr>
+          <td align="right">产品图片：*</td>
+          <td><input type="file" name="upload" class="txt" /></td>
+        </tr>
+        <tr>
+          <td colspan="3" align="center" height="40">
+            <input type="submit" value="确定" />
+            <input
+              type="button"
+              value="取消"
+              onclick="window.history.back( )"
+            />
+          </td>
+        </tr>
+      </table>
+    </form>
+    <script src="/web/js/jquery.js"></script>
+  </body>
+</html>

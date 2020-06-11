@@ -11,7 +11,7 @@ var option = {
   port: "3306",
   database: "my_db",
   user: "root",
-  password: "123123",
+  password: "123321",
 };
 var query = function (sql, params, callback) {
   var conn = mysql.createConnection(option);

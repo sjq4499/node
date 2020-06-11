@@ -49,6 +49,8 @@ var userService = function (method, reqData, postData, returnData) {
         fields
       ) {
         if (err) {
+          console.log(err)
+
           returnHandle(err, results, returnData, "执行数据操作失败", 0);
         } else {
           if (results.length > 0) {
@@ -156,7 +158,7 @@ var userService = function (method, reqData, postData, returnData) {
       break;
   }
 
-  function returnHandle(err, results, returnData, msg, code) {
+  function returnHandle (err, results, returnData, msg, code) {
     if (err) {
       returnData(
         JSON.stringify({

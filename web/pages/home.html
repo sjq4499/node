@@ -3,7 +3,7 @@
  * @Author: sjq
  * @Date: 2020-05-30 15:44:17
  * @LastEditors: sjq
- * @LastEditTime: 2020-06-02 18:10:00
+ * @LastEditTime: 2020-06-15 18:15:19
 -->
 <!DOCTYPE html>
 <html lang="en">
@@ -51,6 +51,7 @@
     <h2>用户名：<span id="userName"></span></h2>
     <button onclick="logout()">注销</button>
     <div class="table"></div>
+    <div class="product-table"></div>
     <script type="text/javascript">
       let table = document.querySelector(".table");
       console.log(table);
@@ -62,7 +63,7 @@
         userBasicInfo: "基本信息",
         fn: "操作",
       };
-      let obj = [
+      let userObj = [
         "username",
         "password",
         "sexValue",
@@ -71,7 +72,7 @@
         "fn",
       ];
       let list = [];
-      creatList(arr);
+      creatList(arr, userObj);
       getuserlist();
       userName.innerHTML = username;
       function logout() {
@@ -90,9 +91,9 @@
             );
             console.log(list);
             table.innerHTML = "";
-            creatList(arr);
+            creatList(arr, userObj);
             for (var i = 0; i < list.length; i++) {
-              creatList(list[i]);
+              creatList(list[i], userObj);
             }
             alert(data.message);
           } else {
@@ -107,7 +108,7 @@
           if (data.code == 1) {
             list = data.result;
             for (var i = 0; i < list.length; i++) {
-              creatList(list[i]);
+              creatList(list[i], userObj);
             }
           } else {
             alert(data.message);
@@ -119,7 +120,7 @@
         window.location.href = "/web/pages/edit.html?id=" + id;
       }
       // 创建表格
-      function creatList(data) {
+      function creatList(data, obj) {
         let list = document.createElement("div");
         list.classList.add("list");
         for (var i = 0; i < obj.length; i++) {

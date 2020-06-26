@@ -54,9 +54,11 @@ let server = http.createServer(function (request, response) {
   } else if (method == "post" && pathName.indexOf("/up") >= 0) {
     //如果是post请求，且上传文件
     var reqData = url.parse(request.url, true).query; //解析url参数
+    console.log(reqData, "////1")
     var form = new formidable.IncomingForm(); //建立form，用于解析含有文件的表单
     form.keepExtensions = true; //保存扩展名
     form.uploadDir = path.join(__dirname, "./temp"); //缓存目录
+    console.log(form, "////1")
     form.onPart = (part) => {
       //处理空文件，防止存储空文件
       if (part.filename === "") return;

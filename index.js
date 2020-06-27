@@ -29,7 +29,7 @@ let server = http.createServer(function (request, response) {
     });
     response.end(data); //向客户端发送数据
   };
-  if (method == "get" && (pathName.startsWith("/web") || pathName === "/")) {
+  if (method == "get" && (pathName.startsWith("/web") || pathName === "/" || pathName.startsWith("/upload"))) {
     //如果是get请求，且请求的是eis路径下的资源，则作为静态资源，读取文件，将文件内容发送到客户端
     pathName = pathName == "/" ? "/web/pages/login.html" : pathName;
     var target = path.resolve(__dirname, "./" + pathName); //获取请求的资源路径

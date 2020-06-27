@@ -24,6 +24,7 @@ var productService = function (method, reqData, postData, returnData) {
       });
       break;
     case "up":
+      console.log(postData)
       query(
         "insert into  product(no,name,type,price,pic,num) values(?,?,?,?,?,?)",
         [
@@ -31,11 +32,53 @@ var productService = function (method, reqData, postData, returnData) {
           postData.name,
           postData.type,
           postData.price,
-          postData.filename,
+          '/upload/' + postData.fileName,
           postData.num,
         ],
         function (err, results, fields) {
           returnHandle(err, results, returnData);
+        }
+      );
+      break;
+    case "delete":
+      var { id } = postData;
+      query("delete from product where p_id=? ", [id], function (
+        err,
+        results,
+        fields
+      ) {
+        if (err) {
+          returnHandle(err, results, returnData, "执行数据操作失败", 0);
+        } else {
+          returnHandle(err, results, returnData, "删除成功", 1);
+        }
+      });
+      break;
+    case "detail":
+      var { id } = reqData;
+      query("select * from product where p_id=? ", [id], function (
+        err,
+        results,
+        fields
+      ) {
+        if (err) {
+          returnHandle(err, results, returnData, "执行数据操作失败", 0);
+        } else {
+          returnHandle(err, results, returnData, "获取成功", 1);
+        }
+      });
+      break;
+    case "edit":
+      var { no, name, type, price, pic, num, id } = postData;
+      query(
+        "update product  set username=? , password=? , userSex=? , userEmail=? , userBasicInfo=?   where id=? ",
+        [username, password, userSex, userEmail, userBasicInfo, id],
+        function (err, results, fields) {
+          if (err) {
+            returnHandle(err, results, returnData, "sql错误", 0);
+          } else {
+            returnHandle(err, results, returnData, "编辑成功", 1);
+          }
         }
       );
       break;
@@ -47,17 +90,21 @@ var productService = function (method, reqData, postData, returnData) {
       );
       break;
   }
-  function returnHandle(err, results, returnData) {
+  function returnHandle (err, results, returnData, msg, code) {
     if (err) {
-      console.log(err);
       returnData(
-        JSON.stringify({ message: "执行数据操作失败", status: "failure" }),
+        JSON.stringify({
+          code,
+          message: msg,
+          status: "failure",
+        }),
         200
       );
     } else {
       returnData(
         JSON.stringify({
-          message: "执行数据操作成功",
+          code,
+          message: msg,
           status: "success",
           result: results,
         }),

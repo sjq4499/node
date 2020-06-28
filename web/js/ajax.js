@@ -1,11 +1,3 @@
-/*
- * @Descripttion:
- * @Author: sjq
- * @Date: 2020-05-30 14:33:40
- * @LastEditors: sjq
- * @LastEditTime: 2020-06-02 17:06:32
- */
-
 function ajax(url, params = null, type = "GET") {
   type = type.toUpperCase();
   return new Promise((resolve, reject) => {

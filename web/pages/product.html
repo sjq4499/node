@@ -88,8 +88,42 @@
             />
           </td>
         </tr>
+        <input type="text" name="p_id" style="display: none;" />
       </table>
     </form>
     <script src="/web/js/jquery.js"></script>
+    <script src="/web//js/ajax.js"></script>
+    <script>
+      // 获取参数
+      var url = document.location.toString();
+      var arrUrl = url.split("?");
+      if (arrUrl.length !== 1) {
+        $("form")[0].action = "http://localhost:8888/product/upedit";
+        var para = arrUrl[1].split("&");
+        let urlData = {};
+        para.forEach((item) => {
+          let arr = item.split("=");
+          console.log(arr);
+          urlData[arr[0]] = arr[1];
+        });
+        // 获取信息
+        ajax(
+          "/product/detail?id=" + urlData.id,
+          { id: urlData.id },
+          "GET"
+        ).then((res) => {
+          let data = JSON.parse(res);
+          if (data.code == 1) {
+            list = data.result[0];
+            console.log(list);
+            for (var i in list) {
+              $(`input[name='${i}']`).val(list[i]);
+            }
+          } else {
+            alert(data.message);
+          }
+        });
+      }
+    </script>
   </body>
 </html>

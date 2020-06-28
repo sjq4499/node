@@ -1,20 +1,3 @@
-/*
- * @Author: your name
- * @Date: 2020-05-30 15:00:52
- * @LastEditTime: 2020-06-02 08:58:37
- * @LastEditors: your name
- * @Description: In User Settings Edit
- * @FilePath: \node\service\productService.js
- */
-
-/*
- * @Descripttion:
- * @Author: sjq
- * @Date: 2020-05-30 15:00:52
- * @LastEditors: Please set LastEditors
- * @LastEditTime: 2020-06-02 08:58:36
- */
-
 var query = require("../doc/mysql.js");
 var productService = function (method, reqData, postData, returnData) {
   switch (method) {
@@ -24,7 +7,7 @@ var productService = function (method, reqData, postData, returnData) {
       });
       break;
     case "up":
-      console.log(postData)
+      console.log(postData);
       query(
         "insert into  product(no,name,type,price,pic,num) values(?,?,?,?,?,?)",
         [
@@ -32,7 +15,7 @@ var productService = function (method, reqData, postData, returnData) {
           postData.name,
           postData.type,
           postData.price,
-          '/upload/' + postData.fileName,
+          "/upload/" + postData.fileName,
           postData.num,
         ],
         function (err, results, fields) {
@@ -68,11 +51,11 @@ var productService = function (method, reqData, postData, returnData) {
         }
       });
       break;
-    case "edit":
-      var { no, name, type, price, pic, num, id } = postData;
+    case "upedit":
+      var { no, name, type, price, pic, num, p_id } = postData;
       query(
-        "update product  set username=? , password=? , userSex=? , userEmail=? , userBasicInfo=?   where id=? ",
-        [username, password, userSex, userEmail, userBasicInfo, id],
+        "update product  set no=? , name=? , type=? , price=? , pic=? , num=?  where p_id=? ",
+        [no, name, type, price, pic, num, p_id],
         function (err, results, fields) {
           if (err) {
             returnHandle(err, results, returnData, "sql错误", 0);
@@ -90,8 +73,9 @@ var productService = function (method, reqData, postData, returnData) {
       );
       break;
   }
-  function returnHandle (err, results, returnData, msg, code) {
+  function returnHandle(err, results, returnData, msg, code) {
     if (err) {
+      console.log(err);
       returnData(
         JSON.stringify({
           code,

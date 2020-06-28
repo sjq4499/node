@@ -1,17 +1,10 @@
-/*
- * @Descripttion:
- * @Author: sjq
- * @Date: 2020-05-30 15:01:41
- * @LastEditors: sjq
- * @LastEditTime: 2020-05-30 15:35:47
- */
 var mysql = require("mysql");
 var option = {
   host: "localhost",
   port: "3306",
   database: "my_db",
   user: "root",
-  password: "123321",
+  password: "123123",
 };
 var query = function (sql, params, callback) {
   var conn = mysql.createConnection(option);

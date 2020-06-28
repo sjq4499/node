@@ -1,11 +1,3 @@
-/*
- * @Descripttion:
- * @Author: sjq
- * @Date: 2020-05-30 15:00:52
- * @LastEditors: sjq
- * @LastEditTime: 2020-06-02 18:09:30
- */
-
 var query = require("../doc/mysql.js");
 var userService = function (method, reqData, postData, returnData) {
   switch (method) {
@@ -49,7 +41,7 @@ var userService = function (method, reqData, postData, returnData) {
         fields
       ) {
         if (err) {
-          console.log(err)
+          console.log(err);
 
           returnHandle(err, results, returnData, "执行数据操作失败", 0);
         } else {
@@ -158,8 +150,9 @@ var userService = function (method, reqData, postData, returnData) {
       break;
   }
 
-  function returnHandle (err, results, returnData, msg, code) {
+  function returnHandle(err, results, returnData, msg, code) {
     if (err) {
+      console.log(err);
       returnData(
         JSON.stringify({
           code,

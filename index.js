@@ -1,11 +1,3 @@
-/*
- * @Descripttion:
- * @Author: sjq
- * @Date: 2020-05-30 14:33:40
- * @LastEditors: sjq
- * @LastEditTime: 2020-06-02 17:47:12
- */
-
 const http = require("http"); //加载HTTP模块，用于创建HTTP服务器
 const url = require("url"); //加载URL模块，用于解析url
 const fs = require("fs"); //加载f s模块，用于读写文件
@@ -29,7 +21,12 @@ let server = http.createServer(function (request, response) {
     });
     response.end(data); //向客户端发送数据
   };
-  if (method == "get" && (pathName.startsWith("/web") || pathName === "/" || pathName.startsWith("/upload"))) {
+  if (
+    method == "get" &&
+    (pathName.startsWith("/web") ||
+      pathName === "/" ||
+      pathName.startsWith("/upload"))
+  ) {
     //如果是get请求，且请求的是eis路径下的资源，则作为静态资源，读取文件，将文件内容发送到客户端
     pathName = pathName == "/" ? "/web/pages/login.html" : pathName;
     var target = path.resolve(__dirname, "./" + pathName); //获取请求的资源路径
@@ -54,11 +51,11 @@ let server = http.createServer(function (request, response) {
   } else if (method == "post" && pathName.indexOf("/up") >= 0) {
     //如果是post请求，且上传文件
     var reqData = url.parse(request.url, true).query; //解析url参数
-    console.log(reqData, "////1")
+    console.log(reqData, "////1");
     var form = new formidable.IncomingForm(); //建立form，用于解析含有文件的表单
     form.keepExtensions = true; //保存扩展名
-    form.uploadDir = path.join(__dirname, "./temp"); //缓存目录
-    console.log(form, "////1")
+    form.uploadDir = path.join(__dirname, "./upload"); //缓存目录
+    console.log(form, "////1");
     form.onPart = (part) => {
       //处理空文件，防止存储空文件
       if (part.filename === "") return;

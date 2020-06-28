@@ -1,10 +1,3 @@
-/*
- * @Descripttion:
- * @Author: sjq
- * @Date: 2020-06-01 08:47:27
- * @LastEditors: sjq
- * @LastEditTime: 2020-06-01 11:07:51
- */
 // 设置cookie
 function setCookie(name, value, time = "", path = "") {
   if (time && path) {
